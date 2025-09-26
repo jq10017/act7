@@ -5,35 +5,38 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => MoodModel(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 // Mood Model - The "Brain" of our app
 class MoodModel with ChangeNotifier {
-  String _currentMood = '😊 use your own img here ';
+  // store the current mood text (could be an emoji or image tag)
+  String _currentMood = '😊';
 
   String get currentMood => _currentMood;
 
   void setHappy() {
-    _currentMood = '😊 use your own img here ';
+    _currentMood = '😊';
     notifyListeners();
   }
 
   void setSad() {
-    _currentMood = '😢 use your own img here ';
+    _currentMood = '😢';
     notifyListeners();
   }
 
   void setExcited() {
-    _currentMood = '🎉 use your own img here ';
+    _currentMood = '🎉';
     notifyListeners();
   }
 }
 
 // Main App Widget
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,6 +49,8 @@ class MyApp extends StatelessWidget {
 
 // Home Page
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,9 +61,9 @@ class HomePage extends StatelessWidget {
           children: [
             Text('How are you feeling?', style: TextStyle(fontSize: 24)),
             SizedBox(height: 30),
-            MoodDisplay(),
+            const MoodDisplay(),
             SizedBox(height: 50),
-            MoodButtons(),
+            const MoodButtons(),
           ],
         ),
       ),
@@ -68,8 +73,11 @@ class HomePage extends StatelessWidget {
 
 // Widget that displays the current mood
 class MoodDisplay extends StatelessWidget {
+  const MoodDisplay({super.key});
+
   @override
   Widget build(BuildContext context) {
+    // Using Consumer to subscribe to MoodModel updates
     return Consumer<MoodModel>(
       builder: (context, moodModel, child) {
         return Text(moodModel.currentMood, style: TextStyle(fontSize: 100));
@@ -80,6 +88,8 @@ class MoodDisplay extends StatelessWidget {
 
 // Widget with buttons to change the mood
 class MoodButtons extends StatelessWidget {
+  const MoodButtons({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -87,21 +97,22 @@ class MoodButtons extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
+            // using Provider.of equivalent to context.read
             Provider.of<MoodModel>(context, listen: false).setHappy();
           },
-          child: Text('Happy 😊 use your own img here '),
+          child: Text('Happy 😊'),
         ),
         ElevatedButton(
           onPressed: () {
             Provider.of<MoodModel>(context, listen: false).setSad();
           },
-          child: Text('Sad 😢 use your own img here '),
+          child: Text('Sad 😢'),
         ),
         ElevatedButton(
           onPressed: () {
             Provider.of<MoodModel>(context, listen: false).setExcited();
           },
-          child: Text('Excited 🎉 use your own img here '),
+          child: Text('Excited 🎉'),
         ),
       ],
     );
