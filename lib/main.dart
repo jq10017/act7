@@ -41,7 +41,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Mood Toggle Challenge',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        appBarTheme: AppBarTheme(backgroundColor: Colors.green),
+      ),
       home: HomePage(),
     );
   }
@@ -97,7 +100,6 @@ class MoodButtons extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            // using Provider.of equivalent to context.read
             Provider.of<MoodModel>(context, listen: false).setHappy();
           },
           child: Text('Happy 😊'),
